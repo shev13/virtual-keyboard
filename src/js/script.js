@@ -3,7 +3,9 @@ import keyTable from './keyTable.js';
 // console.log('Virtual keyboard');
 
 class Key {
-  language = 'en';
+  static language = 'en';
+
+  static capslock = false;
 
   constructor(key, shift, code, isSpecialKey, width) {
     this.key = key;
@@ -80,7 +82,7 @@ for (let i = 0; i < keyTable.length; i += 1) {
     keyTable[i].shift,
     keyTable[i].code,
     keyTable[i].specialKey,
-    keyTable[i].width
+    keyTable[i].width,
   );
   const newKey = key.createKey();
   keyboardContainer.append(newKey);
@@ -99,3 +101,43 @@ const description2 = document.createElement('div');
 description2.innerHTML = 'Для переключения языка комбинация: левыe alt + shift';
 footer.classList.add('description');
 footer.append(description2);
+
+// pressing a key on a physical keyboard highlights the key on the virtual keyboard
+let text = '';
+document.addEventListener('keydown', (event) => {
+  const keyPress = document.querySelector(`.${event.code}`);
+  const attributes = keyPress.getAttribute('class');
+  const isSpecialKey = attributes.includes('special-key');
+
+  if (keyPress) {
+    event.preventDefault();
+    if (event.key === 'CapsLock') {
+      keyPress.classList.toggle('active-key');
+      if (Key.capslock) {
+        Key.capslock = false;
+      } else Key.capslock = true;
+      // console.log('Key.capslock', Key.capslock);
+      return;
+    }
+    // if (event.key === 'Shift') {
+    //   return;
+    // }
+    keyPress.classList.add('active-key');
+    textArea.focus();
+    if (isSpecialKey === false) {
+      text += event.key;
+      textArea.value = text;
+    }
+    // console.log(event);
+    // keyPress(event, button, event.code);
+  }
+});
+document.addEventListener('keyup', (event) => {
+  const keyPress = document.querySelector(`.${event.code}`);
+  if (event.key === 'CapsLock') {
+    return;
+  }
+  if (keyPress) {
+    keyPress.classList.remove('active-key');
+  }
+});

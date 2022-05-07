@@ -47,10 +47,15 @@
   &:hover {
     background-color: #7eceb3;
   }
+  transition: 0.3s;
 }
 
 .special-key {
   background-color: #222222;
+}
+.active-key {
+  border-radius: 20px;
+  background-color: #2fdba2;
 }
 
 .long-key {

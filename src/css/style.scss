@@ -4,6 +4,17 @@
   box-sizing: border-box;
 }
 
+@font-face {
+  font-family: Georgia;
+  // src: url('../font/georgia/georgia-regular.ttf');
+  src: url('../font/georgia/georgia-bold.ttf');
+}
+
+@font-face {
+  font-family: Helvetica;
+  src: url('../font/Helvetica/helvetica_regular.otf');
+}
+
 .keyboard {
   width: 714px;
   margin: 0 auto;
@@ -21,20 +32,78 @@
   height: 40px;
   color: #ffffff;
   background: #444444;
+
+  font-family: 'Helvetica'; //'Georgia';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
   text-align: center;
-  padding: 8px;
+  color: white;
+
+  text-align: center;
+  line-height: 40px;
   border-radius: 3px;
-  // border: 1px solid black;
-  font-size: 18px;
+  cursor: pointer;
+  &:hover {
+    background-color: #7eceb3;
+  }
 }
 
-.special-key{
+.special-key {
   background-color: #222222;
 }
 
-.long-key{
+.long-key {
+  width: 93px;
+}
+.long1-key {
   width: 100px;
 }
-.medium-key{
+.long2-key {
+  width: 47px;
+}
+.long3-key {
+  width: 277px;
+}
+
+.medium-key {
   width: 54px;
+}
+
+textarea {
+  // width: 800px;
+
+  display: block;
+  width: 700px;
+  height: 200px;
+  margin: 10px auto 10px;
+  padding: 10px;
+  font-size: 18px;
+  color: #444444;
+  resize: none;
+}
+
+.title {
+  margin: 10px auto;
+  color: #888888;
+  font-family: 'Georgia';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 30px;
+  text-align: center;
+}
+
+.footer {
+  margin: 20px auto;
+  text-align: center;
+}
+
+.description {
+  font-family: 'Helvetica'; //'Georgia';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  text-align: center;
+  line-height: 24px;
+  // color: white;
 }

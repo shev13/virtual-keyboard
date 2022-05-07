@@ -1,12 +1,9 @@
 import keyTable from './keyTable.js';
 
-console.log('Virtual keyboard');
+// console.log('Virtual keyboard');
 
 class Key {
   language = 'en';
-  //   code;
-  //   value;
-  //   shift;
 
   constructor(key, shift, code, isSpecialKey, width) {
     this.key = key;
@@ -17,7 +14,8 @@ class Key {
   }
 
   switchLanguage() {
-    if (this.language === 'en') this.language = 'ru'; else this.language = 'en';
+    if (this.language === 'en') this.language = 'ru';
+    else this.language = 'en';
   }
 
   createKey() {
@@ -25,15 +23,32 @@ class Key {
     node.classList.add(this.code);
     node.classList.add('key');
     if (this.key.en) {
-      if (this.language === 'en') { node.innerHTML = this.key.en; } else { node.innerHTML = this.key.ru; }
-    } else { node.innerHTML = this.key; }
-    if (this.isSpecialKey) { node.classList.add('special-key'); }
+      if (this.language === 'en') {
+        node.innerHTML = this.key.en;
+      } else {
+        node.innerHTML = this.key.ru;
+      }
+    } else {
+      node.innerHTML = this.key;
+    }
+    if (this.isSpecialKey) {
+      node.classList.add('special-key');
+    }
     switch (this.width) {
       case 'medium':
         node.classList.add('medium-key');
         break;
       case 'long':
         node.classList.add('long-key');
+        break;
+      case 'long1':
+        node.classList.add('long1-key');
+        break;
+      case 'long2':
+        node.classList.add('long2-key');
+        break;
+      case 'long3':
+        node.classList.add('long3-key');
         break;
 
       default:
@@ -43,38 +58,44 @@ class Key {
   }
 }
 
+const title = document.createElement('h1');
+title.classList.add('title');
+title.innerHTML = 'Virtual keyboard';
+document.body.append(title);
+
+const textArea = document.createElement('textarea');
+document.body.append(textArea);
+
 const keyboardContainer = document.createElement('div');
 keyboardContainer.classList.add('keyboard');
 document.body.append(keyboardContainer);
 
-console.log(keyboardContainer);
+// console.log(keyboardContainer);
 
-let keyDataRow = keyTable[0];
-for (let i = 0; i < keyDataRow.length; i += 1) {
-  console.log(keyDataRow[i]);
+for (let i = 0; i < keyTable.length; i += 1) {
+  // console.log(keyDataRow[i]);
 
   const key = new Key(
-    keyDataRow[i].key,
-    keyDataRow[i].shift,
-    keyDataRow[i].code,
-    keyDataRow[i].specialKey,
-    keyDataRow[i].width,
+    keyTable[i].key,
+    keyTable[i].shift,
+    keyTable[i].code,
+    keyTable[i].specialKey,
+    keyTable[i].width
   );
   const newKey = key.createKey();
   keyboardContainer.append(newKey);
 }
 
-keyDataRow = keyTable[1];
-for (let i = 0; i < keyDataRow.length; i += 1) {
-  console.log(keyDataRow[i]);
+const footer = document.createElement('div');
+footer.classList.add('footer');
+document.body.append(footer);
 
-  const key = new Key(
-    keyDataRow[i].key,
-    keyDataRow[i].shift,
-    keyDataRow[i].code,
-    keyDataRow[i].specialKey,
-    keyDataRow[i].width,
-  );
-  const newKey = key.createKey();
-  keyboardContainer.append(newKey);
-}
+const description1 = document.createElement('div');
+description1.innerHTML = 'Клавиатура создана в операционной системе Windows';
+footer.classList.add('description');
+footer.append(description1);
+
+const description2 = document.createElement('div');
+description2.innerHTML = 'Для переключения языка комбинация: левыe alt + shift';
+footer.classList.add('description');
+footer.append(description2);

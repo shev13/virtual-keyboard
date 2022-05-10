@@ -107,6 +107,7 @@ const keyTable = [
   { key: '►', code: 'ArrowRight', specialKey: true },
   {
     key: { en: 'en', ru: 'ru' },
+    shift: { en: 'en', ru: 'ru' },
     code: 'Lang',
     specialKey: true,
     width: 'long2',

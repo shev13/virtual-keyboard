@@ -1,143 +1,63 @@
-import keyTable from './keyTable.js';
+import Keyboard from './keyboard.js';
+import Common from './common.js';
 
-// console.log('Virtual keyboard');
-
-class Key {
-  static language = 'en';
-
-  static capslock = false;
-
-  constructor(key, shift, code, isSpecialKey, width) {
-    this.key = key;
-    this.shift = shift;
-    this.code = code;
-    this.isSpecialKey = isSpecialKey;
-    this.width = width;
-  }
-
-  switchLanguage() {
-    if (this.language === 'en') this.language = 'ru';
-    else this.language = 'en';
-  }
-
-  createKey() {
-    const node = document.createElement('div');
-    node.classList.add(this.code);
-    node.classList.add('key');
-    if (this.key.en) {
-      if (this.language === 'en') {
-        node.innerHTML = this.key.en;
-      } else {
-        node.innerHTML = this.key.ru;
-      }
-    } else {
-      node.innerHTML = this.key;
-    }
-    if (this.isSpecialKey) {
-      node.classList.add('special-key');
-    }
-    switch (this.width) {
-      case 'medium':
-        node.classList.add('medium-key');
-        break;
-      case 'long':
-        node.classList.add('long-key');
-        break;
-      case 'long1':
-        node.classList.add('long1-key');
-        break;
-      case 'long2':
-        node.classList.add('long2-key');
-        break;
-      case 'long3':
-        node.classList.add('long3-key');
-        break;
-
-      default:
-        break;
-    }
-    return node;
-  }
-}
-
-const title = document.createElement('h1');
-title.classList.add('title');
-title.innerHTML = 'Virtual keyboard';
-document.body.append(title);
-
-const textArea = document.createElement('textarea');
-document.body.append(textArea);
-
-const keyboardContainer = document.createElement('div');
-keyboardContainer.classList.add('keyboard');
-document.body.append(keyboardContainer);
-
-// console.log(keyboardContainer);
-
-for (let i = 0; i < keyTable.length; i += 1) {
-  // console.log(keyDataRow[i]);
-
-  const key = new Key(
-    keyTable[i].key,
-    keyTable[i].shift,
-    keyTable[i].code,
-    keyTable[i].specialKey,
-    keyTable[i].width,
-  );
-  const newKey = key.createKey();
-  keyboardContainer.append(newKey);
-}
-
-const footer = document.createElement('div');
-footer.classList.add('footer');
-document.body.append(footer);
-
-const description1 = document.createElement('div');
-description1.innerHTML = 'Клавиатура создана в операционной системе Windows';
-footer.classList.add('description');
-footer.append(description1);
-
-const description2 = document.createElement('div');
-description2.innerHTML = 'Для переключения языка комбинация: левыe alt + shift';
-footer.classList.add('description');
-footer.append(description2);
+Common.createTitle();
+const textArea = Common.createTextArea();
+Keyboard.generate('ru', false);
+Common.createFooter();
 
 // pressing a key on a physical keyboard highlights the key on the virtual keyboard
 let text = '';
 document.addEventListener('keydown', (event) => {
-  const keyPress = document.querySelector(`.${event.code}`);
+  const keyPress = document.querySelector(`[data-code=${event.code}]`);
   const attributes = keyPress.getAttribute('class');
   const isSpecialKey = attributes.includes('special-key');
 
   if (keyPress) {
     event.preventDefault();
     if (event.key === 'CapsLock') {
-      keyPress.classList.toggle('active-key');
-      if (Key.capslock) {
-        Key.capslock = false;
-      } else Key.capslock = true;
-      // console.log('Key.capslock', Key.capslock);
+      if (Keyboard.capslock) {
+        Keyboard.capslock = false;
+        keyPress.classList.remove('active-key');
+      } else {
+        Keyboard.capslock = true;
+        keyPress.classList.add('active-key');
+      }
+      Keyboard.update();
       return;
     }
-    // if (event.key === 'Shift') {
-    //   return;
-    // }
+    if (event.key === 'Shift') {
+      Keyboard.shift = true;
+      Keyboard.update();
+    }
+    if (event.key === 'Alt') {
+      Keyboard.alt = true;
+    }
+    if (Keyboard.alt && Keyboard.shift) {
+      Keyboard.switchLanguage();
+      Keyboard.update();
+    }
+
     keyPress.classList.add('active-key');
     textArea.focus();
     if (isSpecialKey === false) {
-      text += event.key;
+      text += keyPress.textContent;
       textArea.value = text;
     }
-    // console.log(event);
-    // keyPress(event, button, event.code);
   }
 });
 document.addEventListener('keyup', (event) => {
-  const keyPress = document.querySelector(`.${event.code}`);
+  const keyPress = document.querySelector(`[data-code=${event.code}]`);
   if (event.key === 'CapsLock') {
     return;
   }
   if (keyPress) {
     keyPress.classList.remove('active-key');
+  }
+  if (event.key === 'Shift') {
+    Keyboard.shift = false;
+  }
+  if (event.key === 'Alt') {
+    Keyboard.alt = false;
   }
 });

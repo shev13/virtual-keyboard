@@ -1,9 +1,12 @@
 import Keyboard from './keyboard.js';
 import Common from './common.js';
 
+let localStorageLanguage;
+if (localStorage.getItem('language')) { localStorageLanguage = localStorage.getItem('language'); }
+
 Common.createTitle();
 const textArea = Common.createTextArea();
-Keyboard.generate('ru', false);
+Keyboard.generate(localStorageLanguage);
 Common.createFooter();
 
 // pressing a key on a physical keyboard highlights the key on the virtual keyboard

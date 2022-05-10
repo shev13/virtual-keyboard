@@ -10,9 +10,8 @@ export default class Keyboard {
 
   static alt = false;
 
-  static generate(language, capslock) {
+  static generate(language) {
     Keyboard.language = language;
-    Keyboard.capslock = capslock;
 
     const keyboardContainer = document.createElement('div');
     keyboardContainer.classList.add('keyboard');
@@ -52,5 +51,6 @@ export default class Keyboard {
   static switchLanguage() {
     if (Keyboard.language === 'en') Keyboard.language = 'ru';
     else Keyboard.language = 'en';
+    localStorage.setItem('language', Keyboard.language);
   }
 }

@@ -2,7 +2,7 @@ export default class Key {
   static lang;
 
   constructor(lang, key, shift, code, isSpecialKey, width) {
-    this.lang = lang;
+    Key.lang = lang;
     this.code = code;
     if (key.en) {
       this.en = key.en;

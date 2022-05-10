@@ -49,6 +49,7 @@ document.addEventListener('keydown', (event) => {
     }
   }
 });
+
 document.addEventListener('keyup', (event) => {
   const keyPress = document.querySelector(`[data-code=${event.code}]`);
   if (event.key === 'CapsLock') {
@@ -62,5 +63,20 @@ document.addEventListener('keyup', (event) => {
   }
   if (event.key === 'Alt') {
     Keyboard.alt = false;
+  }
+});
+
+// mouse clicks
+document.querySelector('.keyboard').addEventListener('click', (event) => {
+  if (event.target.closest('.key')) {
+    const keyPress = event.target.closest('.key');
+    const attributes = keyPress.getAttribute('class');
+    const isSpecialKey = attributes.includes('special-key');
+
+    textArea.focus();
+    if (isSpecialKey === false) {
+      text += keyPress.textContent;
+      textArea.value = text;
+    }
   }
 });

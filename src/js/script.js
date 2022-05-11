@@ -13,10 +13,11 @@ Common.createFooter();
 let text = '';
 document.addEventListener('keydown', (event) => {
   const keyPress = document.querySelector(`[data-code=${event.code}]`);
-  const attributes = keyPress.getAttribute('class');
-  const isSpecialKey = attributes.includes('special-key');
 
   if (keyPress) {
+    const attributes = keyPress.getAttribute('class');
+    const isSpecialKey = attributes.includes('special-key');
+
     event.preventDefault();
     if (event.key === 'CapsLock') {
       if (Keyboard.capslock) {

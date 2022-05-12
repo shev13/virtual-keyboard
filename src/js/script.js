@@ -38,6 +38,11 @@ document.addEventListener('keydown', (event) => {
       Keyboard.update();
     }
 
+    if (event.key === 'Backspace') {
+      text = text.slice(0, -1);
+      textArea.value = text;
+    }
+
     keyPress.classList.add('active-key');
     textArea.focus();
     if (isSpecialKey === false) {

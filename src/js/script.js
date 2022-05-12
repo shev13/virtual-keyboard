@@ -38,24 +38,18 @@ document.addEventListener('keydown', (event) => {
       Keyboard.update();
     }
 
-    if (event.key === 'Backspace') {
-      text = text.slice(0, -1);
-      textArea.value = text;
-    }
-
-    if (event.key === 'Enter') {
-      text += '\n';
-      textArea.value = text;
-    }
-
-    if (event.key === 'Tab') {
-      text += '    ';
-      textArea.value = text;
-    }
-
     keyPress.classList.add('active-key');
     textArea.focus();
-    if (isSpecialKey === false) {
+    if (isSpecialKey) {
+      if (event.key === 'Backspace') { text = text.slice(0, -1); }
+      if (event.key === 'Enter') { text += '\n'; }
+      if (event.key === 'Tab') { text += '    '; }
+      if ((event.key === 'ArrowUp')
+       || (event.key === 'ArrowDown')
+       || (event.key === 'ArrowLeft')
+       || (event.key === 'ArrowRight')) { text += keyPress.textContent; }
+      textArea.value = text;
+    } else {
       text += keyPress.textContent;
       textArea.value = text;
     }

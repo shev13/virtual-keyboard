@@ -34,17 +34,26 @@ export default class Keyboard {
   static update() {
     const keys = document.querySelectorAll('.key');
     for (let i = 0; i < keys.length; i += 1) {
-      if (Keyboard.language === 'en') {
-        if (Keyboard.capslock) {
-          if (keys[i].dataset.shiftEn) {
-            keys[i].innerHTML = keys[i].dataset.shiftEn;
+      const attributes = keys[i].getAttribute('class');
+      const isSpecialKey = attributes.includes('special-key');
+      if (!isSpecialKey) {
+        if (Keyboard.language === 'en') { // en
+          if (Keyboard.shift) {
+            if (keys[i].dataset.shiftEn) {
+              keys[i].innerHTML = keys[i].dataset.shiftEn;
+            }
+          } else if (keys[i].dataset.en) keys[i].innerHTML = keys[i].dataset.en;
+        } else // ru
+        if (Keyboard.shift) {
+          if (keys[i].dataset.shiftRu) {
+            keys[i].innerHTML = keys[i].dataset.shiftRu;
           }
-        } else if (keys[i].dataset.en) keys[i].innerHTML = keys[i].dataset.en;
-      } else if (Keyboard.capslock) {
-        if (keys[i].dataset.shiftRu) {
-          keys[i].innerHTML = keys[i].dataset.shiftRu;
+        } else if (keys[i].dataset.ru) keys[i].innerHTML = keys[i].dataset.ru;
+        if (Keyboard.capslock && keys[i].dataset.shiftEn) {
+          if (Keyboard.shift) keys[i].innerHTML = keys[i].innerHTML.toLowerCase();
+          else keys[i].innerHTML = keys[i].innerHTML.toUpperCase();
         }
-      } else if (keys[i].dataset.ru) keys[i].innerHTML = keys[i].dataset.ru;
+      }
     }
   }
 

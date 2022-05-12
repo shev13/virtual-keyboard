@@ -20,25 +20,21 @@ document.addEventListener('keydown', (event) => {
 
     event.preventDefault();
     if (event.key === 'CapsLock') {
-      if (Keyboard.capslock) {
-        Keyboard.capslock = false;
-        keyPress.classList.remove('active-key');
-      } else {
-        Keyboard.capslock = true;
-        keyPress.classList.add('active-key');
-      }
+      keyPress.classList.toggle('active-key');
+      if (Keyboard.capslock) { Keyboard.capslock = false; } else { Keyboard.capslock = true; }
       Keyboard.update();
       return;
     }
     if (event.key === 'Shift') {
-      Keyboard.shift = true;
+      keyPress.classList.toggle('active-key');
+      if (Keyboard.shift) { Keyboard.shift = false; } else { Keyboard.shift = true; }
+      if (Keyboard.alt && Keyboard.shift) { Keyboard.switchLanguage(); }
       Keyboard.update();
+      return;
     }
     if (event.key === 'Alt') {
       Keyboard.alt = true;
-    }
-    if (Keyboard.alt && Keyboard.shift) {
-      Keyboard.switchLanguage();
+      if (Keyboard.shift) { Keyboard.switchLanguage(); }
       Keyboard.update();
     }
 
@@ -53,14 +49,17 @@ document.addEventListener('keydown', (event) => {
 
 document.addEventListener('keyup', (event) => {
   const keyPress = document.querySelector(`[data-code=${event.code}]`);
-  if (event.key === 'CapsLock') {
+  if ((event.key === 'CapsLock') || (event.key === 'Shift')) {
     return;
+  }
+  const shiftKey = document.querySelector('[data-code="ShiftLeft"]');
+  if (shiftKey) {
+    Keyboard.shift = false;
+    shiftKey.classList.remove('active-key');
   }
   if (keyPress) {
     keyPress.classList.remove('active-key');
-  }
-  if (event.key === 'Shift') {
-    Keyboard.shift = false;
+    Keyboard.update();
   }
   if (event.key === 'Alt') {
     Keyboard.alt = false;

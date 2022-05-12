@@ -48,6 +48,11 @@ document.addEventListener('keydown', (event) => {
       textArea.value = text;
     }
 
+    if (event.key === 'Tab') {
+      text += '    ';
+      textArea.value = text;
+    }
+
     keyPress.classList.add('active-key');
     textArea.focus();
     if (isSpecialKey === false) {
